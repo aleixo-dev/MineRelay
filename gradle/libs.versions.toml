@@ -9,15 +9,14 @@ kotlinxCoroutinesCore = "1.10.1"
 ktorSerializationKotlinxJson = "2.3.12"
 ktorServerContentNegotiation = "2.0.0"
 ktorServerCore = "2.0.0"
+ktorServerCors = "2.0.0"
 ktorServerNetty = "2.0.0"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
 composeBom = "2024.04.01"
 jetbrainsKotlinJvm = "2.0.0"
 logbackClassic = "1.4.14"
-paperApi = "1.21.3"
 paperApiVersion = "1.21.4-R0.1-SNAPSHOT"
-logback-version = "1.4.14"
 
 [libraries]
 
@@ -41,10 +40,11 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 
-#ktor
+#Ktor
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktorServerContentNegotiation" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktorServerCore" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktorServerCors" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktorServerNetty" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logbackClassic" }
 
@@ -56,4 +56,3 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
-

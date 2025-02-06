@@ -1,5 +1,6 @@
 package com.nicolas.backend.ktor
 
+import com.nicolas.backend.ktor.repository.InMemoryRepository
 import com.nicolas.backend.ktor.routes.minerelay.mineRelayRoute
 import com.typesafe.config.ConfigFactory
 import io.ktor.serialization.kotlinx.json.json
@@ -9,6 +10,7 @@ import io.ktor.server.config.HoconApplicationConfig
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.routing.routing
 
 fun main() {
@@ -27,7 +29,11 @@ fun Application.module() {
         json()
     }
 
+    install(CORS) {
+        anyHost()
+    }
+
     routing {
-        mineRelayRoute()
+        mineRelayRoute(InMemoryRepository())
     }
 }
