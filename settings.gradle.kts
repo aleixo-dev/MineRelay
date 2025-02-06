@@ -1,5 +1,12 @@
 pluginManagement {
     repositories {
+        maven {
+            name = "papermc"
+            url = uri("https://repo.papermc.io/repository/maven-public/")
+        }
+        maven("https://oss.sonatype.org/content/groups/public/") {
+            name = "sonatype"
+        }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -12,12 +19,23 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        google()
         mavenCentral()
+        maven {
+            name = "papermc"
+            url = uri("https://repo.papermc.io/repository/maven-public/")
+        }
+        maven("https://oss.sonatype.org/content/groups/public/") {
+            name = "sonatype"
+        }
+        google()
     }
 }
 
 rootProject.name = "MineRelay"
 include(":app")
+include(":backend")
+include(":minecraft")
+include(":minecraft:plugins")
+include(":minecraft:plugins:mine-relay")
