@@ -1,0 +1,15 @@
+#
+#  __  __ _            ____      _
+# |  \/  (_)_ __   ___|  _ \ ___| | __ _ _   _
+# | |\/| | | '_ \ / _ \ |_) / _ \ |/ _` | | | |
+# | |  | | | | | |  __/  _ <  __/ | (_| | |_| |
+# |_|  |_|_|_| |_|\___|_| \_\___|_|\__,_|\__, |
+#                                        |___/
+
+# Configuração a api para o backend
+backend:
+  host: "http://localhost"
+  # Porta padrão, se não tiver deixar em ""
+  port: 8080
+  endpoint: "/api/v1/mine-relay"
+  schedule-delay: 800L
