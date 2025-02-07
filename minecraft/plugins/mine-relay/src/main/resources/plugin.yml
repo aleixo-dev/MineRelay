@@ -1,0 +1,4 @@
+name: MineRelay
+version: '1.0-SNAPSHOT'
+main: com.nicolas.mine_relay.plugin.MineRelayPlugin
+api-version: '1.21'
