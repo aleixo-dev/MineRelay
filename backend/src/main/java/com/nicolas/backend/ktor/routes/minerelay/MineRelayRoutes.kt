@@ -1,6 +1,6 @@
 package com.nicolas.backend.ktor.routes.minerelay
 
-import com.nicolas.backend.ktor.model.PlayerData
+import com.nicolas.backend.ktor.model.UserIdentity
 import com.nicolas.backend.ktor.repository.InMemoryRepository
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.JsonConvertException
@@ -23,7 +23,7 @@ fun Route.mineRelayRoute(inMemoryRepository: InMemoryRepository) {
 
         post {
             try {
-                val player = call.receive<PlayerData>()
+                val player = call.receive<List<UserIdentity>>()
                 inMemoryRepository.addPlayer(player)
 
                 call.respond(HttpStatusCode.Created)
