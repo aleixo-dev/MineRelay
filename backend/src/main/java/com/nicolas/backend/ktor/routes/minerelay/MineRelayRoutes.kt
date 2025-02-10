@@ -18,7 +18,7 @@ fun Route.mineRelayRoute(inMemoryRepository: InMemoryRepository) {
     route("api/v1/mine-relay") {
         get {
             val players = inMemoryRepository.allPlayer()
-            call.respond(HttpStatusCode.OK, players)
+            call.respond(HttpStatusCode.OK, players.flatten().toList())
         }
 
         post {

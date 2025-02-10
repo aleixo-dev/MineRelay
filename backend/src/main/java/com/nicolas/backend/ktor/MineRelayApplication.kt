@@ -18,7 +18,10 @@ fun main() {
     val config = HoconApplicationConfig(ConfigFactory.load())
     val port = config.propertyOrNull("ktor.deployment.port")?.getString()?.toInt() ?: 8080
 
-    embeddedServer(Netty, port = port) {
+    embeddedServer(
+        Netty, port = 3333,
+        host = "0.0.0.0"
+    ) {
         module()
     }.start(wait = true)
 }
