@@ -17,16 +17,13 @@ class KtorApiService(val client: HttpClient?) {
     private val baseUrl = "http://localhost:3333/api/v1/mine-relay"
     private val platformHeader = "minecraft"
 
-    suspend fun postUserIdentities(userIdentities: List<UserIdentity>) =
+    suspend fun postUserIdentity(userIdentity: UserIdentity?) =
         withContext(Dispatchers.IO) {
-
-            if (userIdentities.isEmpty()) return@withContext
-
             try {
                 client?.post(baseUrl) {
                     contentType(ContentType.Application.Json)
                     headers { append("platform", platformHeader) }
-                    setBody(userIdentities)
+                    setBody(userIdentity)
                 }
             } catch (exception: Exception) {
                 exception.printStackTrace()
