@@ -17,13 +17,26 @@ fun Route.mineRelayRoute(inMemoryRepository: InMemoryRepository) {
 
     route("api/v1/mine-relay") {
         get {
-            val players = inMemoryRepository.allPlayer()
-            call.respond(HttpStatusCode.OK, players.flatten().toList())
+
+            val playerName = call.request.queryParameters["name"]
+
+            if (playerName == null) {
+                val players = inMemoryRepository.allPlayer()
+                call.respond(HttpStatusCode.OK, players)
+                return@get
+            }
+
+            val playersMatchByName = inMemoryRepository.searchPlayer(playerName)
+            if(playersMatchByName.isEmpty()) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+            call.respond(HttpStatusCode.OK, playersMatchByName)
         }
 
         post {
             try {
-                val player = call.receive<List<UserIdentity>>()
+                val player = call.receive<UserIdentity>()
                 inMemoryRepository.addPlayer(player)
 
                 call.respond(HttpStatusCode.Created)
