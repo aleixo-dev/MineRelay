@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -10,6 +13,10 @@ android {
     compileSdk = 35
 
     defaultConfig {
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
         applicationId = "com.nicolas.minerelay"
         minSdk = 24
         targetSdk = 35
@@ -17,6 +24,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            "\"${properties.getProperty("BASE_URL")}\""
+        )
+        buildConfigField(
+            "String",
+            "BASE_ENDPOINT",
+            "\"${properties.getProperty("BASE_ENDPOINT")}\""
+        )
     }
 
     buildTypes {
@@ -26,6 +44,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+        }
+        debug {
+            isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
     }
     compileOptions {
@@ -37,6 +61,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

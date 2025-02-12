@@ -1,5 +1,6 @@
 package com.nicolas.minerelay.data.repository
 
+import com.nicolas.minerelay.BuildConfig
 import com.nicolas.minerelay.data.mappers.toPlayerIdentity
 import com.nicolas.minerelay.data.remote.response.PlayerIdentityDto
 import com.nicolas.minerelay.domain.models.PlayerIdentity
@@ -22,11 +23,27 @@ class PlayerRepositoryImpl(
         flow<Result<List<PlayerIdentity>>> {
             runCatching {
                 val playerResponse: List<PlayerIdentityDto> =
-                    client.get("http://10.0.2.2:3333/api/v1/mine-relay").body()
+                    client.get(
+                        "${BuildConfig.BASE_URL}${BuildConfig.BASE_ENDPOINT}"
+                    ).body()
 
                 emit(Result.success(playerResponse.toPlayerIdentity()))
             }.onFailure { exception ->
                 emit(Result.failure(exception))
             }
         }.flowOn(dispatcher)
+
+    override suspend fun searchPlayer(name: String): Flow<Result<List<PlayerIdentity>>> =
+        flow {
+            runCatching {
+                val playerResponse: List<PlayerIdentityDto> =
+                    client.get(
+                        "${BuildConfig.BASE_URL}${BuildConfig.BASE_ENDPOINT}?name=$name"
+                    ).body()
+
+                emit(Result.success(playerResponse.toPlayerIdentity()))
+            }.onFailure { exception ->
+                emit(Result.failure(exception))
+            }
+        }
 }
