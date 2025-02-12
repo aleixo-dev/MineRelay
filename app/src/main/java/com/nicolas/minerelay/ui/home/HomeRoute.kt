@@ -40,7 +40,8 @@ fun HomeRoute(
     HomeScreen(
         modifier = modifier,
         state = state,
-        onRefresh = viewModel::requestPlayers
+        onRefresh = viewModel::requestPlayers,
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -49,7 +50,8 @@ fun HomeRoute(
 private fun HomeScreen(
     modifier: Modifier = Modifier,
     state: HomeUiState,
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
+    onEvent: (HomeUiEvent) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -60,7 +62,9 @@ private fun HomeScreen(
         topBar = {
             SearchableTopAppBar(
                 scrollBehavior = scrollBehavior,
-                onSearch = { },
+                onSearch = { query ->
+                    onEvent(HomeUiEvent.Search(query))
+                },
                 onRefresh = onRefresh
             )
         }
@@ -77,6 +81,7 @@ private fun HomeScreen(
                     )
                 }
             }
+
             HomeUiState.Loading -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -85,18 +90,21 @@ private fun HomeScreen(
                     CircularProgressIndicator()
                 }
             }
+
             is HomeUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier.padding(innerPadding),
                     contentPadding = PaddingValues(horizontal = 15.dp),
                     state = listState
                 ) {
+                    item {
+                        Text(
+                            text = context.getString(R.string.online_players) + " (${state.players.size})",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
                     items(items = state.players, key = { it.uuid }) { player ->
                         Column {
-                            Text(
-                                text = context.getString(R.string.online_players) + " (${state.players.size})",
-                                style = MaterialTheme.typography.titleMedium
-                            )
                             Spacer(modifier = Modifier.height(10.dp))
                             PlayerCardInfo(player = player)
                         }
